@@ -60,9 +60,9 @@ def mostHighColoured():
     # hstRC, hstGC, hstBC = [0, 0], [0, 0], [0, 0] # declaration / assignment of COORDS
     # im going to see if i can refactor this into a dictionary. damn this is big though
     highestColours = {
-        "HstR" : [0, 0, 0],
-        "HstG" : [0, 0, 0], # highest value and then the coords
-        "HstB" : [0, 0, 0]
+        "HstR" : [-1, 0, 0],
+        "HstG" : [-1, 0, 0], # highest value and then the coords
+        "HstB" : [-1, 0, 0]
     }
     # hst = highest
     # cur = current (in examination)
@@ -88,7 +88,8 @@ def mostHighColoured():
                 highestColours["HstB"][0] = bCur
                 highestColours["HstB"][1] = hCur
                 highestColours["HstB"][2] = wCur
-
+    # im not really sure how this works with BW imagery lol
+    print(f"Highest Red Value is {highestColours["HstR"][0]}, which can be found at pixel: {highestColours["HstR"][1]}, {highestColours["HstR"][0]}\nHighest Green Value is {highestColours["HstG"][0]}, which can be found at pixel: {highestColours["HstG"][1]}, {highestColours["HstG"][2]}\nHighest Blue Value is {highestColours["HstB"][0]}, which can be found at: {highestColours["HstB"][1]}, {highestColours["HstB"][2]}")
             
             
 
