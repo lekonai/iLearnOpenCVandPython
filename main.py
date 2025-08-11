@@ -38,15 +38,15 @@ def selection():
 
 def messingAbout():
     # i need to make some space and put all the real shit in .. the actual flow control
-    h, w = image.shape[:2]
-    print(f"Height = {h}, Width = {w}")
+    hT, wT = image.shape[:2]
+    print(f"Height = {hT}, Width = {wT}")
 
-    Blue, Green, Red = image[h - 20, w - 20]
-    print(f"The colour values at the pixel [{h - 20}, {w - 20}], are\nR = {Red}\nG = {Green}\nB = {Blue}")
-    cv2.imshow("Pixel!", image[h - 20, w - 20])
+    Blue, Green, Red = image[hT - 20, wT - 20]
+    print(f"The colour values at the pixel [{hT - 20}, {wT - 20}], are\nR = {Red}\nG = {Green}\nB = {Blue}")
+    cv2.imshow("Pixel!", image[hT - 20, wT - 20])
     cv2.waitKey(0)
     print("")
-    roi = image[0 : int(h / 2), 0 : int(w / 2)] # im no sure which is height and width. im gonna assume its h and w, also because everything is alphabetical, and also because i had assigned h and w before in this same manner
+    roi = image[0 : int(hT / 2), 0 : int(wT / 2)] # im no sure which is height and width. im gonna assume its h and w, also because everything is alphabetical, and also because i had assigned h and w before in this same manner
     cv2.imshow("ROI", roi)
     cv2.waitKey(0)
 
@@ -59,6 +59,7 @@ def mostHighColoured():
     # hstR, hstG, hstB = 0, 0, 0 # declaration / assignment of VALUES
     # hstRC, hstGC, hstBC = [0, 0], [0, 0], [0, 0] # declaration / assignment of COORDS
     # im going to see if i can refactor this into a dictionary. damn this is big though
+    global highestColours # not tryna return it icl. just make it global
     highestColours = {
         "HstR" : [-1, 0, 0],
         "HstG" : [-1, 0, 0], # highest value and then the coords
@@ -90,8 +91,18 @@ def mostHighColoured():
                 highestColours["HstB"][2] = wCur
     # im not really sure how this works with BW imagery lol
     print(f"Highest Red Value is {highestColours["HstR"][0]}, which can be found at pixel: {highestColours["HstR"][1]}, {highestColours["HstR"][0]}\nHighest Green Value is {highestColours["HstG"][0]}, which can be found at pixel: {highestColours["HstG"][1]}, {highestColours["HstG"][2]}\nHighest Blue Value is {highestColours["HstB"][0]}, which can be found at: {highestColours["HstB"][1]}, {highestColours["HstB"][2]}")
-            
-            
+    draw() # this shall draw rectangles and label stuff after.
+
+def draw():
+    # highest colours exist at this point
+    # draw reached
+    # the objective is to slice all images where the pixel is found, then add it to the bottom of the photo, and highlight it
+
+    foundPixelsCopy = image.copy() # so it's gonna be copied to the bottom
+
+    cv2.imshow("copy", foundPixelsCopy)
+    cv2.waitKey(0)
+    
 
 
 
