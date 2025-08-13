@@ -6,6 +6,7 @@ import os
 # so you can't declare? only assign... a bit annoying
 
 ### initial directory read, will not be necessary after implementation / the addition of a web frontend ###
+print("Keep in mind all coordinates are in [y, x] format")
 print("Please select the image you want:")
 imgLi = os.listdir('images/')
 
@@ -50,10 +51,22 @@ def messingAbout():
     cv2.imshow("ROI", roi)
     cv2.waitKey(0)
 
+def messingAboutPt2():
+    # this is me messing about
+    rectangular = cv2.rectangle(image.copy(), (50, 60), (90, 90), (0, 0, 255), 3) # image used, top left coord, bottom right coord, colour, thickness
+    rectangular = cv2.putText(rectangular, "Just an example", (45, 60), cv2.FONT_HERSHEY_PLAIN, 4, (255, 0, 20), 2) # image, text, BL coords, font, font size, colour, width
+    cv2.imshow("rectangular example", rectangular)
+    cv2.waitKey(0)
+
+    cropped = rectangular.copy()[35:105, 45:105]
+    cv2.imshow("cropepd", cropped)
+    cv2.waitKey(0)
+
 def mostHighColoured():
     # before i get to OCR, which i know will stump me, i want to make a quick and very very slow algorithm to find the highest R, G and B values
     # the purpose of this subroutine is to extract the pixels of highest RGB and then display them in context. this will be forming images and such
     print("Finding Highest RGB Values...")
+    global tHeight, tWidth
     tHeight, tWidth = image.shape[:2]
     # i have no ideas of how to optimise this better at the moment, i guess this could be deployed differently depending on colour depth or what type of image it is
     # hstR, hstG, hstB = 0, 0, 0 # declaration / assignment of VALUES
@@ -99,9 +112,19 @@ def draw():
     # the objective is to slice all images where the pixel is found, then add it to the bottom of the photo, and highlight it
 
     foundPixelsCopy = image.copy() # so it's gonna be copied to the bottom
+    # cv2.imshow("copy", foundPixelsCopy) # debug
+    # cv2.waitKey(0)
+    # messingAboutPt2() # messing about, as it is
 
-    cv2.imshow("copy", foundPixelsCopy)
-    cv2.waitKey(0)
+    for keys in highestColours:
+        yCur, xCur = highestColours[f"{keys}"][1], highestColours[f"{keys}"][2]
+        print(f"{yCur}, {xCur}") # man this python wack as hell! im sure there's a more efficient way of doing this but i kinda fw it
+        # cropped = foundPixelsCopy.copy()[yCur - 70 : yCur + 70, xCur - 70 : xCur + 70] # this will crash if the arguments are negative of course
+        cropped = foundPixelsCopy.copy() # so this is just for debug
+        cropped = cv2.rectangle(cropped, (yCur - 2, xCur - 2), (yCur + 2, xCur + 2), (0, 0, 255), 2) # okay this works but im not sure its the best way to show one of the pixels
+        cv2.imshow("cropped", cropped)
+        cv2.waitKey(0)
+
     
 
 
