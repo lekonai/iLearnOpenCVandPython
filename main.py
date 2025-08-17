@@ -111,17 +111,27 @@ def draw():
     # draw reached
     # the objective is to slice all images where the pixel is found, then add it to the bottom of the photo, and highlight it
 
-    foundPixelsCopy = image.copy() # so it's gonna be copied to the bottom
+    drawCopy = image.copy() # so it's gonna be copied to the bottom
     # cv2.imshow("copy", foundPixelsCopy) # debug
     # cv2.waitKey(0)
     # messingAboutPt2() # messing about, as it is
+    for keys in highestColours: # draw lines
+        yCur, xCur = highestColours[f"{keys}"][1], highestColours[f"{keys}"][2]
+        drawCopy = cv2.rectangle(drawCopy, (yCur - 2, xCur - 2), (yCur + 2, xCur + 2), (0, 0, 255), 2) 
+    
+    cv2.imshow("drawn", drawCopy)
+    cv2.waitKey(0)
 
     for keys in highestColours:
         yCur, xCur = highestColours[f"{keys}"][1], highestColours[f"{keys}"][2]
         print(f"{yCur}, {xCur}") # man this python wack as hell! im sure there's a more efficient way of doing this but i kinda fw it
-        # cropped = foundPixelsCopy.copy()[yCur - 70 : yCur + 70, xCur - 70 : xCur + 70] # this will crash if the arguments are negative of course
-        cropped = foundPixelsCopy.copy() # so this is just for debug
-        cropped = cv2.rectangle(cropped, (yCur - 2, xCur - 2), (yCur + 2, xCur + 2), (0, 0, 255), 2) # okay this works but im not sure its the best way to show one of the pixels
+        xdifference, ydifference, bdifference = 70, 70, 70 # this'll be trying to find the bound, but then again im going to have to do it outwards as well, so i'll have to copy and paste it. wait, there may be a chance where i don't have to do it outwards
+        if yCur - bdifference < 0: # there's definitely a more efficient way of doing this
+            ydifference -= abs(yCur - bdifference)
+        if xCur - bdifference < 0: # ahh here comes the conflict 
+            xdifference -= abs(xCur - bdifference)
+        cropped = drawCopy.copy()[yCur - ydifference : yCur + 70, xCur - xdifference : xCur + 70] # this will crash if the arguments are negative of course
+        # cropped = foundPixelsCopy.copy() # so this is just for debug
         cv2.imshow("cropped", cropped)
         cv2.waitKey(0)
 
