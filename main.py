@@ -125,20 +125,24 @@ def draw():
     for keys in highestColours:
         yCur, xCur = highestColours[f"{keys}"][1], highestColours[f"{keys}"][2]
         print(f"{yCur}, {xCur}") # man this python wack as hell! im sure there's a more efficient way of doing this but i kinda fw it
-        xdifference, ydifference, bdifference = 70, 70, 70 # this'll be trying to find the bound, but then again im going to have to do it outwards as well, so i'll have to copy and paste it. wait, there may be a chance where i don't have to do it outwards
-        if yCur - bdifference < 0: # there's definitely a more efficient way of doing this
-            ydifference -= abs(yCur - bdifference)
-        if xCur - bdifference < 0: # ahh here comes the conflict 
-            xdifference -= abs(xCur - bdifference)
-        cropped = drawCopy.copy()[yCur - ydifference : yCur + 70, xCur - xdifference : xCur + 70] # this will crash if the arguments are negative of course
+        xdiffn, ydiffn, xdiffp, ydiffp, bdifference = 70, 70, 70, 70, 70 # this'll be trying to find the bound, but then again im going to have to do it outwards as well, so i'll have to copy and paste it. wait, there may be a chance where i don't have to do it outwards
+        if yCur - bdifference < 0: # the thing is this if is technically redundant if i just implemented the crop to start at 0 rather than a difference that starts it to 0, but its also more intuitive this way as the evaluation is still only in one line!
+            ydiffn -= abs(yCur - bdifference) # okay this and the other negative works
+        if xCur - bdifference < 0: 
+            xdiffn -= abs(xCur - bdifference)
+        if yCur + bdifference > tHeight: 
+            ydiffp -= tHeight - (yCur + bdifference)
+            print(ydiffp)
+        if xCur - bdifference > tWidth: 
+            xdiffp -= tHeight - (xCur + bdifference)
+            print(xdiffp) # debug
+
+        cropped = drawCopy.copy()[yCur - ydiffn : yCur + ydiffp, xCur - xdiffn : xCur + ydiffp] # this will crash if the arguments are negative of course
         # cropped = foundPixelsCopy.copy() # so this is just for debug
-        cv2.imshow("cropped", cropped)
+        cv2.imshow("cropped", cropped) # okay this isn't working, i might just move onto OCR
         cv2.waitKey(0)
 
     
-
-
-
 ### main main ###
 num = selection()
 

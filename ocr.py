@@ -1,0 +1,2 @@
+# i had made such a mess of the original code that im not sure i want to continue
+# but i enjoyed what i did and i learnt a lot, so i think ive suitable knowledge to just jump into it. this will start soon
