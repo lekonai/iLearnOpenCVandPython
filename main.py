@@ -8,7 +8,7 @@ import os
 ### initial directory read, will not be necessary after implementation / the addition of a web frontend ###
 print("Keep in mind all coordinates are in [y, x] format")
 print("Please select the image you want:")
-imgLi = os.listdir('images/')
+imgLi = os.listdir('static/images/')
 
 fileNamesD = {
     0 : "placeholder"
@@ -146,7 +146,7 @@ def draw():
 ### main main ###
 num = selection()
 
-pathA = f'images/{fileNamesD[num]}'
+pathA = f'static/images/{fileNamesD[num]}'
 image = cv2.imread(pathA) 
 
 decision = input("Would you like to see the image you selected? Y/N \n")
